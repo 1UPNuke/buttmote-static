@@ -1,0 +1,10 @@
+:root {
+    --bg-color: #111;
+    --fg-color: #444;
+    --txt-color: #AAA;
+    --heading-color: #DDD;
+    --accent-color: #06A;
+    --input-bg-color: #222;
+    --bulb-on-color: #FF2;
+    --bulb-off-color: #AAA;
+}
