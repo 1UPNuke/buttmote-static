@@ -1,15 +1,22 @@
+let remoteEnabled = false;
+let bufferMinutes = 0;
 
-document.addEventListener("DOMContentLoaded", ()=>{
-    getState();
+
+document.addEventListener("DOMContentLoaded", async ()=>{
+    await getState();
+    document.getElementById("buffer-minutes").value = bufferMinutes.toFixed(2);
+    document.getElementById("remote-enabled").checked = remoteEnabled;
+
     window.setInterval(getState, 1000);
 
     document.getElementById("remote-enabled").addEventListener("change", setSettings);
     document.getElementById("buffer-minutes").addEventListener("change", setSettings);
 });
 
-async function setSettings() {
-    const remoteEnabled = document.getElementById("remote-enabled").checked;
-    const bufferMinutes = document.getElementById("buffer-minutes").value;
+async function setSettings(e) {
+    e.preventDefault();
+    remoteEnabled = document.getElementById("remote-enabled").checked;
+    bufferMinutes = +document.getElementById("buffer-minutes").value;
 
     const response = await fetch("/api/settings", {
         method: "POST",
@@ -22,25 +29,31 @@ async function setSettings() {
     });
     const json = await response.json();
     if(json.error) {
-        alert("Error updating settings: " + json.message);
+        alert("Error updating settings: " + json.msg);
     }
+    
+    await getState();
+    document.getElementById("buffer-minutes").value = bufferMinutes.toFixed(2);;
+    document.getElementById("remote-enabled").checked = remoteEnabled;
 }
 
 async function getState() {
     const response = await fetch("/api/status");
-    const json = await response.json()
+    const json = await response.json();
+
     const sitting = json.sitting;
     const minutesSat = json.minutesSat;
     const minutesStood = json.minutesStood;
-    const bufferMinutes = json.bufferMinutes;
-    const remoteEnabled = json.remoteEnabled;
+
+    remoteEnabled = json.remoteEnabled;
+    bufferMinutes = json.bufferMinutes;
 
     const bufferReached = minutesStood >= bufferMinutes;
 
     updateOverlay(sitting, bufferReached);
     updateBulb(sitting, bufferReached);
     updateCouch(sitting);
-    updatePerson(sitting);
+    updatePerson(sitting );
 }
 
 function updateOverlay(sitting, bufferReached) {
