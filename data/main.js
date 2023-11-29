@@ -16,7 +16,8 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 async function setSettings(e) {
     e.preventDefault();
     remoteEnabled = document.getElementById("remote-enabled").checked;
-    if(isNaN(document.getElementById("buffer-minutes").value)) {
+    bufferInputValue = document.getElementById("buffer-minutes").value;
+    if(isNaN(bufferInputValue) || bufferInputValue === "") {
         alert("Please input a number!");
         return;
     }
