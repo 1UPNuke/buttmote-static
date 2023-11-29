@@ -16,6 +16,10 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 async function setSettings(e) {
     e.preventDefault();
     remoteEnabled = document.getElementById("remote-enabled").checked;
+    if(isNaN(document.getElementById("buffer-minutes").value)) {
+        alert("Please input a number!");
+        return;
+    }
     bufferMinutes = +document.getElementById("buffer-minutes").value;
 
     const response = await fetch("/api/settings", {
