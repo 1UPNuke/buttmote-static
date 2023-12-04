@@ -70,6 +70,7 @@ input {
   border: 2px solid var(--fg-color);
   border-radius: 0.2em;
   font-size: 100%;
+  color: #ccc;
 }
 
 input[type="number"] {
@@ -79,7 +80,6 @@ input[type="number"] {
   height: 2em;
   margin: auto;
   margin-left: 0.5em;
-  color: #ccc;
   width: 5em;
 }
 
