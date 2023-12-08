@@ -9,10 +9,14 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 
     window.setInterval(getState, 1000);
 
-    document.getElementById("wifi-ssid").addEventListener("change", setSettings);
-    document.getElementById("wifi-pass").addEventListener("change", setSettings);
-    document.getElementById("bulb-ip").addEventListener("change", setSettings);
+    document.querySelector("form").addEventListener("submit", formSubmit);
 });
+
+function formSubmit(e) {
+    e.preventDefault();
+    setSettings(e);
+    return false;
+}
 
 async function setSettings(e) {
     e.preventDefault();
